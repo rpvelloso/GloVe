@@ -44,3 +44,5 @@ vocab.txt
 text8
 .vscode
 cooccurrence*
+.git-credentials
+.gitconfig
