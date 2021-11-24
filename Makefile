@@ -9,6 +9,7 @@ CC = gcc
 # CFLAGS = -lm -pthread -Ofast -march=native -funroll-loops -Wall -Wextra -Wpedantic
 
 CFLAGS = -lm -pthread -O3 -march=native -funroll-loops -Wall -Wextra -Wpedantic
+CXXFLAGS = -std=c++1y -lm -pthread -O9 -march=native -funroll-loops -Wall -Wextra -Wpedantic -ffast-math
 BUILDDIR := build
 SRCDIR := src
 OBJDIR := $(BUILDDIR)
@@ -22,15 +23,17 @@ all: dir $(OBJ) $(MODULES)
 dir :
 	mkdir -p $(BUILDDIR)
 $(BUILDDIR)/glove : $(OBJDIR)/glove.o $(OBJDIR)/common.o
-	$(CC) $^ -o $@ $(CFLAGS)
+	$(CXX) $^ -o $@ $(CFLAGS)
 $(BUILDDIR)/shuffle : $(OBJDIR)/shuffle.o $(OBJDIR)/common.o
 	$(CC) $^ -o $@ $(CFLAGS)
 $(BUILDDIR)/cooccur : $(OBJDIR)/cooccur.o $(OBJDIR)/common.o
 	$(CC) $^ -o $@ $(CFLAGS)
 $(BUILDDIR)/vocab_count : $(OBJDIR)/vocab_count.o $(OBJDIR)/common.o
-	$(CC) $^ -o $@ $(CFLAGS)
+	$(CXX) $^ -o $@ $(CFLAGS)
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(HEADERS)
 	$(CC) -c $< -o $@ $(CFLAGS)
+$(OBJDIR)/%.o : $(SRCDIR)/%.cpp $(HEADERS)
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
 .PHONY: clean
 clean:
 	rm -rf $(BUILDDIR)
